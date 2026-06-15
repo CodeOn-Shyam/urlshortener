@@ -18,8 +18,8 @@ public class UrlController {
     private ShortUrlService shortUrlService;
 
     @PostMapping("/shorten")
-    public Long shortenUrl(@RequestBody CreateUrlRequest request){
-        return shortUrlService.getId(request.getOriginalUrl());
+    public String shortenUrl(@RequestBody CreateUrlRequest request){
+        return shortUrlService.getShortUrl(request.getOriginalUrl());
     }
     
     @GetMapping("/expand")

@@ -3,5 +3,5 @@ import lombok.Data;
 
 @Data
 public class DeleteUrlRequest {
-  private Long id;  
+  private String shortUrl;  
 }
