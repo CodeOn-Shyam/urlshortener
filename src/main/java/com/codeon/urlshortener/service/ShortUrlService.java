@@ -1,8 +1,9 @@
 package com.codeon.urlshortener.service;
+import com.codeon.urlshortener.entity.Url;
 
 public interface ShortUrlService{
-    String getShortUrl(String originalUrl);
-    String getOriginalUrl(String shortUrl);
-    void deleteUrl(String shortUrl);
-    void updateUrl(String shortUrl, String newOriginalUrl);
+    Url getShortCode(String url);
+    Url getOriginalUrl(String shortCode);
+    void deleteUrl(String shortCode);
+    Url updateUrl(String shortCode, String url);
 }

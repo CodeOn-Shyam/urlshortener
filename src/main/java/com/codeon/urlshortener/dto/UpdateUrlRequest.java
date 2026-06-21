@@ -4,6 +4,5 @@ import lombok.Data;
 
 @Data
 public class UpdateUrlRequest {
-    private String shortUrl;
-    private String newOriginalUrl;   
+    private String url;  
 }
