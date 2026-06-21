@@ -48,4 +48,8 @@ public class ShortUrlsServiceImp implements ShortUrlService {
         url.setUpdatedAt(LocalDateTime.now());
         return shortUrlsRepository.save(url);
     }
+    @Override
+    public Url getAccessCount(String shortCode){
+        return shortUrlsRepository.findByShortCode(shortCode).orElseThrow(()-> new RuntimeException("URL not found"));
+    }
 }
