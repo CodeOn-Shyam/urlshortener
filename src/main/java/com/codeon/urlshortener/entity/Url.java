@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 @Data
 public class Url {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String url;

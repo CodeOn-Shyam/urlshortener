@@ -14,24 +14,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.codeon.urlshortener.service.ShortUrlService;
-import com.codeon.urlshortener.dto.UpdateUrlRequest;
 import com.codeon.urlshortener.dto.AccessCountResponse;
-import com.codeon.urlshortener.dto.CreateUrlRequest;
-import com.codeon.urlshortener.dto.CreateUrlResponse;
-import com.codeon.urlshortener.dto.GetUrlResponse;
-import com.codeon.urlshortener.dto.UpdateUrlResponse;
-
+import com.codeon.urlshortener.dto.UrlRequest;
+import com.codeon.urlshortener.dto.UrlResponse;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.codeon.urlshortener.entity.Url;
 @RestController
+@RequestMapping("/api")
 public class UrlRestController {
-    @Autowired
-    private ShortUrlService shortUrlService;
+    private final ShortUrlService shortUrlService;
+
+    UrlRestController(ShortUrlService shortUrlService) {
+        this.shortUrlService = shortUrlService;
+    }
 
     @PostMapping("/shorten")
-    public ResponseEntity<CreateUrlResponse> shortenUrl(@RequestBody CreateUrlRequest request){
+    public ResponseEntity<UrlResponse> shortenUrl(@RequestBody UrlRequest request){
         Url url = shortUrlService.getShortCode(request.getUrl());
-        return ResponseEntity.status(HttpStatus.CREATED).body(CreateUrlResponse.builder()
+        return ResponseEntity.status(HttpStatus.CREATED).body(UrlResponse.builder()
         .id(url.getId())
         .url(url.getUrl())
         .shortCode(url.getShortCode())
@@ -40,10 +41,10 @@ public class UrlRestController {
         .build());
     }
     
-    @GetMapping("/shorten/{shortCode}")
-    public ResponseEntity<GetUrlResponse> expandUrl(@PathVariable String shortCode){
+    @GetMapping("/{shortCode}")
+    public ResponseEntity<UrlResponse> expandUrl(@PathVariable String shortCode){
         Url url = shortUrlService.getOriginalUrl(shortCode);
-        return ResponseEntity.ok().body(GetUrlResponse.builder()
+        return ResponseEntity.status(HttpStatus.FOUND).body(UrlResponse.builder()
         .id(url.getId())
         .url(url.getUrl())
         .shortCode(url.getShortCode())
@@ -56,10 +57,10 @@ public class UrlRestController {
         shortUrlService.deleteUrl(shortCode);
         return ResponseEntity.noContent().build();
     }
-    @PutMapping("/shorten/{shortCode}")
-    public ResponseEntity<UpdateUrlResponse> updateUrl(@RequestBody UpdateUrlRequest request,@PathVariable String shortCode){
+    @PutMapping("/update/{shortCode}")
+    public ResponseEntity<UrlResponse> updateUrl(@RequestBody UrlRequest request,@PathVariable String shortCode){
         Url url = shortUrlService.updateUrl(shortCode, request.getUrl());
-        return ResponseEntity.ok().body(UpdateUrlResponse
+        return ResponseEntity.ok().body(UrlResponse
         .builder()
         .id(url.getId())
         .url(url.getUrl())
@@ -68,7 +69,7 @@ public class UrlRestController {
         .updatedAt(url.getUpdatedAt())
         .build());
     }
-    @GetMapping("/shorten/{shortCode}/stats")
+    @GetMapping("/stats/{shortCode}")
     public ResponseEntity<AccessCountResponse> getAccessCount(@PathVariable String shortCode){
         Url url = shortUrlService.getAccessCount(shortCode);
         return 

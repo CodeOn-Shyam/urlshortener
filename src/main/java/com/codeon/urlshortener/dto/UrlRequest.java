@@ -1,8 +1,7 @@
 package com.codeon.urlshortener.dto;
-
 import lombok.Data;
 
 @Data
-public class UpdateUrlRequest {
-    private String url;  
+public class UrlRequest {
+    private String url; 
 }

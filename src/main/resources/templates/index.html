@@ -3,12 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Url Shortener</title>
+    <title>URL Shortener</title>
 </head>
 <body>
-    <h2>Shorten Url</h2>
-    <input type="text" id = "originalUrl" placeholder="Enter Url To Shorten">
+
+    <h2>Shorten URL</h2>
+    <input type="text" id="url" placeholder="Enter URL">
     <button onclick="shortenUrl()">Shorten</button>
     <p id="shortenedUrl"></p>
-    <script src="js\app.js"
+
+    <hr>
+
+    <h2>Delete URL</h2>
+    <input type="text" id="deleteShortCode" placeholder="Enter Short Code">
+    <button onclick="deleteUrl()">Delete</button>
+
+    <hr>
+
+    <h2>Update URL</h2>
+    <input type="text" id="updateShortCode" placeholder="Enter Short Code">
+    <input type="text" id="newUrl" placeholder="Enter New URL">
+    <button onclick="updateUrl()">Update</button>
+
+    <hr>
+
+    <h2>Access Stats</h2>
+    <input type="text" id="statsShortCode" placeholder="Enter Short Code">
+    <button onclick="getStats()">Get Stats</button>
+
+    <p id="stats"></p>
+
+    <script>
+        function shortenUrl() {
+    const originalUrl = document.getElementById("url").value;
+
+    fetch('/api/shorten', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            url: originalUrl
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("shortenedUrl").innerText =
+            `Short URL: ${window.location.origin}/${data.shortCode}`;
+    })
+    .catch(error => console.error(error));
+}
+
+function deleteUrl() {
+    const shortCode =
+        document.getElementById("deleteShortCode").value;
+
+    fetch(`/api/delete/${shortCode}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+            document.getElementById("stats").innerText =
+                "URL deleted successfully";
+        } else {
+            throw new Error("Delete failed");
+        }
+    })
+    .catch(error => console.error(error));
+}
+
+function updateUrl() {
+    const shortCode =
+        document.getElementById("updateShortCode").value;
+
+    const newUrl =
+        document.getElementById("newUrl").value;
+
+    fetch(`/api/update/${shortCode}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            url: newUrl
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("stats").innerText =
+            `Updated URL: ${data.url}`;
+    })
+    .catch(error => console.error(error));
+}
+
+function getStats() {
+    const shortCode =
+        document.getElementById("statsShortCode").value;
+
+    fetch(`/api/stats/${shortCode}`)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("stats").innerHTML = `
+            URL: ${data.url}<br>
+            Short Code: ${data.shortCode}<br>
+            Access Count: ${data.accessCount}<br>
+            Created At: ${data.createdAt}<br>
+            Updated At: ${data.updatedAt}
+        `;
+    })
+    .catch(error => console.error(error));
+}
+    </script>
+
+</body>
 </html>

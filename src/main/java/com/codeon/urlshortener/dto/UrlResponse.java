@@ -1,11 +1,11 @@
 package com.codeon.urlshortener.dto;
-import lombok.Data;
 import lombok.Builder;
+import lombok.Data;
 import java.time.LocalDateTime;
 @Data
 @Builder
-public class GetUrlResponse{
-    private Long id;
+public class UrlResponse {
+    private long id;
     private String url;
     private String shortCode;
     private LocalDateTime createdAt;
