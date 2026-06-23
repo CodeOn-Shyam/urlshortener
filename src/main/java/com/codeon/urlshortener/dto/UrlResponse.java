@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 public class UrlResponse {
     private long id;
     private String url;
-    private String shortCode;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

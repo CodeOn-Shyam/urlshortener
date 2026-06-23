@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.codeon.urlshortener.service.ShortUrlService;
 import com.codeon.urlshortener.dto.AccessCountResponse;
@@ -35,7 +34,6 @@ public class UrlRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(UrlResponse.builder()
         .id(url.getId())
         .url(url.getUrl())
-        .shortCode(url.getShortCode())
         .createdAt(url.getCreatedAt())
         .updatedAt(url.getUpdatedAt())
         .build());
@@ -47,7 +45,6 @@ public class UrlRestController {
         return ResponseEntity.status(HttpStatus.FOUND).body(UrlResponse.builder()
         .id(url.getId())
         .url(url.getUrl())
-        .shortCode(url.getShortCode())
         .createdAt(url.getCreatedAt())
         .updatedAt(url.getUpdatedAt())
         .build());
@@ -64,7 +61,6 @@ public class UrlRestController {
         .builder()
         .id(url.getId())
         .url(url.getUrl())
-        .shortCode(url.getShortCode())
         .createdAt(url.getCreatedAt())
         .updatedAt(url.getUpdatedAt())
         .build());
@@ -76,7 +72,6 @@ public class UrlRestController {
         ResponseEntity.ok().body(AccessCountResponse.builder()
         .id(url.getId())
         .url(url.getUrl())
-        .shortCode(url.getShortCode())
         .updatedAt(url.getUpdatedAt())
         .createdAt(url.getCreatedAt())
         .accessCount(url.getAccessCount())

@@ -4,8 +4,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +23,6 @@ public class Url {
     @Column(nullable = false)
     private String url;
     @Column(unique = true, nullable = false)
-    private String shortCode;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Long accessCount;

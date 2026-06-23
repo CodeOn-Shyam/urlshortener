@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class AccessCountResponse {
    private Long id;
    private String url;
-   private String shortCode;
    private LocalDateTime updatedAt;
    private LocalDateTime createdAt;
    private Long accessCount; 
